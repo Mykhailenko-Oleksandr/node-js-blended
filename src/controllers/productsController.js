@@ -20,5 +20,35 @@ export const getProductsById = async (req, res, next) => {
 };
 
 export const createProduct = async (req, res) => {
-  res.status(201).json();
+  const newProduct = await Product.create(req.body);
+
+  res.status(201).json(newProduct);
+};
+
+export const updateProduct = async (req, res, next) => {
+  const { productId } = req.params;
+
+  const product = await Product.findByIdAndUpdate(productId, req.body, {
+    new: true,
+  });
+
+  if (!product) {
+    next(createHttpError(404, 'Product not found'));
+    return;
+  }
+
+  res.status(200).json(product);
+};
+
+export const deleteProduct = async (req, res, next) => {
+  const { productId } = req.params;
+
+  const product = await Product.findByIdAndDelete(productId);
+
+  if (!product) {
+    next(createHttpError(404, 'Product not found'));
+    return;
+  }
+
+  res.status(200).json(product);
 };
