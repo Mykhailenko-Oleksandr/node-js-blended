@@ -5,6 +5,7 @@ const productSchema = new Schema(
     name: {
       type: String,
       required: true,
+      trim: true,
     },
     price: {
       type: Number,
@@ -18,10 +19,12 @@ const productSchema = new Schema(
     },
     description: {
       type: String,
+      trim: true,
     },
   },
   {
     timestamps: true,
+    versionKey: false,
   },
 );
 
